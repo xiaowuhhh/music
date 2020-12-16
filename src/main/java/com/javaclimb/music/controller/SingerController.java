@@ -25,7 +25,7 @@ public class SingerController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object addSinger (HttpServletRequest request){
         JSONObject jsonObject = new JSONObject();
-        String id = request.getParameter("id").trim();
+        //String id = request.getParameter("id").trim();
         String name = request.getParameter("name").trim();
         String sex = request.getParameter("sex").trim();
         String pic = request.getParameter("pic").trim();
@@ -42,7 +42,7 @@ public class SingerController {
         }
         /*保存歌手到对象中*/
         Singer singer = new Singer();
-        singer.setId(Integer.parseInt(id));
+        //singer.setId(Integer.parseInt(id));
         singer.setSex(new Byte(sex));
         singer.setName(name);
         singer.setPic(pic);
@@ -103,7 +103,7 @@ public class SingerController {
 
 
     /*删除歌手*/
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
     public Object deleteSinger(HttpServletRequest request){
         JSONObject jsonObject = new JSONObject();
         String id = request.getParameter("id").trim();
@@ -129,7 +129,7 @@ public class SingerController {
 
 
     /*查询所有歌手*/
-    @RequestMapping(value = "/selectAll",method = RequestMethod.POST)
+    @RequestMapping(value = "/allSinger",method = RequestMethod.GET)
     public Object allSinger(HttpServletRequest request) {
         return singerService.allSinger();
     }

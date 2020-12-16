@@ -24,7 +24,7 @@
                 id,
             </if>
             <if test="name != null">
-                `name`,
+                name,
             </if>
             <if test="sex != null">
                 sex,
@@ -35,33 +35,33 @@
             <if test="birth != null">
                 birth,
             </if>
-            <if test="location!= null">
+            <if test="location != null">
                 location,
             </if>
-            <if test="introduction!= null">
+            <if test="introduction != null">
                 introduction,
             </if>
         </trim>
         <trim prefix=" values (" suffix=")" suffixOverrides=",">
-            <if test="id = !null">
+            <if test="id != null">
                 #{id},
             </if>
-            <if test="name = !null">
+            <if test="name != null">
                 #{name},
             </if>
-            <if test="sex = !null">
+            <if test="sex != null">
                 #{sex},
             </if>
-            <if test="pic = !null">
+            <if test="pic != null">
                 #{pic},
             </if>
-            <if test="birth = !null">
+            <if test="birth != null">
                 #{birth},
             </if>
-            <if test="location= !null">
+            <if test="location != null">
                 #{location},
             </if>
-            <if test="introduction= !null">
+            <if test="introduction != null">
                 #{introduction},
             </if>
 
@@ -71,22 +71,22 @@
     <update id="update" parameterType="com.javaclimb.music.domain.Singer">
         update singer
         <set>
-            <if test="name = !null">
+            <if test="name != null">
                 name=#{name},
             </if>
-            <if test="sex = !null">
+            <if test="sex != null">
                 sex=#{sex},
             </if>
-            <if test="pic = !null">
+            <if test="pic != null">
                 pic=#{pic},
             </if>
-            <if test="birth = !null">
+            <if test="birth != null">
                 birth=#{birth},
             </if>
-            <if test="location= !null">
+            <if test="location != null">
                 location=#{location},
             </if>
-            <if test="introduction= !null">
+            <if test="introduction != null">
                 introduction=#{introduction},
             </if>
         </set>
