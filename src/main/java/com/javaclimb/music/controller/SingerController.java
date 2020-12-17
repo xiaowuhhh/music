@@ -4,12 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.javaclimb.music.domain.Singer;
 import com.javaclimb.music.service.SingerService;
 import com.javaclimb.music.utils.Consts;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -130,22 +135,68 @@ public class SingerController {
 
     /*查询所有歌手*/
     @RequestMapping(value = "/allSinger",method = RequestMethod.GET)
-    public Object allSinger(HttpServletRequest request) {
+    public Object allSinger() {
         return singerService.allSinger();
     }
 
 
     /*根据歌手名模糊查询*/
-    @RequestMapping(value = "singerOfName",method = RequestMethod.POST)
+    @RequestMapping(value = "/singerOfName",method = RequestMethod.POST)
     public Object singerOfName(HttpServletRequest request){
         String name = request.getParameter("name").trim();
         return singerService.singerOfName("%"+name+"%");
     }
 
     /*根据歌手性别查询*/
-    @RequestMapping(value = "singerOfSex",method = RequestMethod.POST)
+    @RequestMapping(value = "/singerOfSex",method = RequestMethod.POST)
     public Object singerOfSex(HttpServletRequest request){
         String sex = request.getParameter("sex").trim();
         return singerService.singerOfSex(Integer.parseInt(sex));
+    }
+
+
+    /*更新歌手图片*/
+    @RequestMapping(value = "avatar/update",method = RequestMethod.POST)
+    public Object updateSingerPic(@RequestParam("file")MultipartFile avatroFile, @RequestParam("id")int id){
+        JSONObject jsonObject = new JSONObject();
+        if (avatroFile.isEmpty()){
+            jsonObject.put(Consts.CODE,0);
+            jsonObject.put(Consts.MSG,"文件上传失败");
+        return jsonObject;
+        }
+
+
+        String fileName = System.currentTimeMillis()+avatroFile.getOriginalFilename();
+        String filePath = System.getProperty("user.dir")+System.getProperty("file.separator")+"img"+
+                System.getProperty("file.separator")+"singerPic";
+        File file1 = new File(filePath);
+        if (!file1.exists()){
+          file1.mkdir();
+        }
+        //实际文件地址
+        File dest = new File(filePath+System.getProperty("file.separator")+fileName);
+        //数据库文件地址
+        String storeAvatorPath = "/img/singerPic/"+fileName;
+        try {
+            avatroFile.transferTo(dest);
+            Singer singer = new Singer();
+            singer.setId(id);
+            singer.setPic(storeAvatorPath);
+            boolean flag = singerService.update(singer);
+            if (flag){
+                jsonObject.put(Consts.CODE,1);
+                jsonObject.put(Consts.MSG,"图片上传成功！");
+                jsonObject.put("pic",storeAvatorPath);
+                return jsonObject;
+            }
+            jsonObject.put(Consts.CODE,0);
+            jsonObject.put(Consts.MSG,"图片上传失败");
+            return jsonObject;
+        } catch (IOException e) {
+            jsonObject.put(Consts.CODE,0);
+            jsonObject.put(Consts.MSG,"图片上传失败"+e.getMessage());
+        }finally {
+            return jsonObject;
+        }
     }
 }

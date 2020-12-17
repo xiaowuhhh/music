@@ -71,6 +71,9 @@
     <update id="update" parameterType="com.javaclimb.music.domain.Singer">
         update singer
         <set>
+            <if test="id != null">
+                id=#{id},
+            </if>
             <if test="name != null">
                 name=#{name},
             </if>
