@@ -8,7 +8,7 @@ public class Song {
     private Integer singerId;
     private String name;
     private String introduction;
-    private Date cerateTime;
+    private Date createTime;
     private Date updateTime;
     private String pic;
     private String lyric;
@@ -46,12 +46,12 @@ public class Song {
         this.introduction = introduction;
     }
 
-    public Date getCerateTime() {
-        return cerateTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCerateTime(Date cerateTime) {
-        this.cerateTime = cerateTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {

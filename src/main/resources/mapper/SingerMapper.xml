@@ -117,12 +117,14 @@
     </select>
 
     <select id="singerOfName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
         <include refid="Base_Column_List"></include>
         from singer
         where name like #{name}
     </select>
 
     <select id="singerOfSix" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
         <include refid="Base_Column_List"></include>
         from singer
         where sex = #{sex}

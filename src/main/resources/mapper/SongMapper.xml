@@ -8,7 +8,7 @@
         <result column="singer_id" jdbcType="VARCHAR" property="singerId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="pic" jdbcType="VARCHAR" property="pic"/>
-        <result column="cerate_time" jdbcType="TIMESTAMP" property="cerateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
@@ -18,12 +18,12 @@
         <result column="lyric" jdbcType="LONGVARCHAR" property="lyric"/>
     </resultMap>
 
-    <sql id = "Base_Column_List">
-        id,singer_id,name,pic,cerate_time,update_time,url,introduction
-    </sql>
+   <!-- <sql id = "Base_Column_List">
+        id,singer_id,name,pic,create_time,update_time,url,introduction
+    </sql>-->
 
     <sql id="Blob_Column_List">
-        id,singer_id,name,pic,cerate_time,update_time,url,introduction,lyric
+        id,singer_id,name,pic,create_time,update_time,url,introduction,lyric
     </sql>
 
     <insert id="insert" parameterType="com.javaclimb.music.domain.Song">
@@ -32,7 +32,7 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="singer_id != null">
+            <if test="singerId != null">
                 singer_id,
             </if>
             <if test="name != null">
@@ -41,7 +41,7 @@
             <if test="pic != null">
                 pic,
             </if>
-            cerate_time,update_time,
+            create_time,update_time,
             <if test="url != null">
                 url,
             </if>
@@ -89,9 +89,9 @@
                 singer_id=#{singerId},
             </if>
             <if test="name != null">
-                name=#{name},
+                `name`=#{name},
             </if>
-            update_time=now()
+            update_time=now(),
             <if test="pic != null">
                 pic=#{pic},
             </if>
@@ -110,7 +110,7 @@
 
     <delete id="delete" parameterType="java.lang.Integer">
         delete from song
-        where id=#{id}
+        where id =#{id}
     </delete>
     <!--mybatis 非常的智能，如果配置了resultMap，
         返回值统一使用 resultMap=“BaseResultMap”，
@@ -129,13 +129,15 @@
     </select>
 
     <select id="songOfName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
-        <include refid="Base_Column_List"></include>
+        select
+        <include refid="Blob_Column_List"></include>
         from song
         where name like #{name}
     </select>
 
     <select id="songOfSingerId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
-        <include refid="Base_Column_List"></include>
+        select
+        <include refid="Blob_Column_List"></include>
         from song
         where singer_id = #{singerId}
     </select>
